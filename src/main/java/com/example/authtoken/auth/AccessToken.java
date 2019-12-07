@@ -1,22 +1,30 @@
 package com.example.authtoken.auth;
 
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class AccessToken implements Authentication {
+public class AccessToken extends AbstractAuthenticationToken {
 
     private String token;
 
-    public AccessToken(String token) {
+    private TokenUserDetail principal;
+
+    public AccessToken(String token, TokenUserDetail principal) {
+        super(null);
         this.token = token;
+        this.principal = principal;
+        setAuthenticated(false);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public AccessToken(String token, TokenUserDetail principal, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
+        this.token = token;
+        this.principal = principal;
+        setAuthenticated(true);
     }
+
 
     @Override
     public Object getCredentials() {
@@ -24,27 +32,7 @@ public class AccessToken implements Authentication {
     }
 
     @Override
-    public Object getDetails() {
-        return null;
-    }
-
-    @Override
     public Object getPrincipal() {
-        return null;
-    }
-
-    @Override
-    public boolean isAuthenticated() {
-        return false;
-    }
-
-    @Override
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-    }
-
-    @Override
-    public String getName() {
-        return null;
+        return principal;
     }
 }

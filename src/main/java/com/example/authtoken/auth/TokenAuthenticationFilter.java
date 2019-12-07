@@ -40,7 +40,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
 
             if (!StringUtils.isEmpty(token)) {
-                AccessToken authRequest = new AccessToken(token);
+                AccessToken authRequest = new AccessToken(token, null);
 
                 Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
