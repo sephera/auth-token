@@ -32,7 +32,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         final boolean debug = this.logger.isDebugEnabled();
 
         try {
-            final String token = request.getHeader("token");
+            final String token = request.getHeader("X-Auth-Token");
 
 
             if (debug) {
@@ -40,7 +40,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
 
             if (!StringUtils.isEmpty(token)) {
-                AccessToken authRequest = new AccessToken(token, null);
+                AccessAuthenticationToken authRequest = new AccessAuthenticationToken(token, null);
 
                 Authentication authResult = this.authenticationManager.authenticate(authRequest);
 

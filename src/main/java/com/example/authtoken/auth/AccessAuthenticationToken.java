@@ -5,22 +5,22 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class AccessToken extends AbstractAuthenticationToken {
+public class AccessAuthenticationToken extends AbstractAuthenticationToken {
 
-    private String token;
+    private String credentials;
 
     private TokenUserDetail principal;
 
-    public AccessToken(String token, TokenUserDetail principal) {
+    public AccessAuthenticationToken(String credentials, TokenUserDetail principal) {
         super(null);
-        this.token = token;
+        this.credentials = credentials;
         this.principal = principal;
         setAuthenticated(false);
     }
 
-    public AccessToken(String token, TokenUserDetail principal, Collection<? extends GrantedAuthority> authorities) {
+    public AccessAuthenticationToken(String credentials, TokenUserDetail principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.token = token;
+        this.credentials = credentials;
         this.principal = principal;
         setAuthenticated(true);
     }
@@ -28,7 +28,7 @@ public class AccessToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getCredentials() {
-        return token;
+        return credentials;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        final AccessToken token = (AccessToken) authentication;
+        final AccessAuthenticationToken token = (AccessAuthenticationToken) authentication;
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
@@ -40,14 +40,14 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private Authentication createSuccessAuthentication(AccessToken token, String[] authorities) {
+    private Authentication createSuccessAuthentication(AccessAuthenticationToken token, String[] authorities) {
         final Set<SimpleGrantedAuthority> au = Stream.of(authorities).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
         final TokenUserDetail u = new TokenUserDetail(au);
-        return new AccessToken((String) token.getCredentials(), u, au);
+        return new AccessAuthenticationToken((String) token.getCredentials(), u, au);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return AccessToken.class.isAssignableFrom(authentication);
+        return AccessAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }
