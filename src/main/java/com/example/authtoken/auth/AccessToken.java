@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.authtoken.auth;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

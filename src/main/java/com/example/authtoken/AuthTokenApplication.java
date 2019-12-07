@@ -1,13 +1,13 @@
-package com.example.demo;
+package com.example.authtoken;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class AuthTokenApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(AuthTokenApplication.class, args);
 	}
 
 }

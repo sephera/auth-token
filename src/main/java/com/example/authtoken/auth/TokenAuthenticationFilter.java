@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.authtoken.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -72,12 +72,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    protected void onSuccessfulAuthentication(HttpServletRequest request,
-                                              HttpServletResponse response, Authentication authResult) throws IOException {
+    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {
     }
 
-    protected void onUnsuccessfulAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response, AuthenticationException failed)
-            throws IOException {
+    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
     }
 }
