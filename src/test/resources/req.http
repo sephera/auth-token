@@ -11,15 +11,27 @@ Accept: application/json
 
 ###
 
+
 GET http://localhost:9900/actuator
 Accept: application/json
-X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4ifQ.L75Am_XSgyOtaZA_fjNfUZc2HtNguTnn6xBg7mPD_zc
+X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4iLCJ1cmkiOlsiL3VzZXIiLCIvYWN0dWF0b3IvaGVhbHRoIl19._BCoNG-wN93B3DvkCVXaPNOYe8GeXjX6fxfDuwCTdbE
 
 ###
 
+GET http://localhost:9900/actuator/health
+Accept: application/json
+X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4iLCJ1cmkiOlsiL3VzZXIiLCIvYWN0dWF0b3IvaGVhbHRoIl19._BCoNG-wN93B3DvkCVXaPNOYe8GeXjX6fxfDuwCTdbE
+
+###
 
 GET http://localhost:9900/user
 Accept: application/json
-X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4ifQ.L75Am_XSgyOtaZA_fjNfUZc2HtNguTnn6xBg7mPD_zc
+X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4iLCJ1cmkiOlsiL3VzZXIiLCIvYWN0dWF0b3IvaGVhbHRoIl19._BCoNG-wN93B3DvkCVXaPNOYe8GeXjX6fxfDuwCTdbE
+
+###
+
+GET http://localhost:9900/tester
+Accept: application/json
+X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4iLCJ1cmkiOlsiL3VzZXIiLCIvYWN0dWF0b3IvaGVhbHRoIl19._BCoNG-wN93B3DvkCVXaPNOYe8GeXjX6fxfDuwCTdbE
 
 ###

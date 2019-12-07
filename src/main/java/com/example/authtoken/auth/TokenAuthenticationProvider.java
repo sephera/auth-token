@@ -25,24 +25,28 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final AccessAuthenticationToken token = (AccessAuthenticationToken) authentication;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer("auth-token")
                     .build();
             DecodedJWT jwt = verifier.verify((String) token.getCredentials());
 
-            final Claim claim = jwt.getClaim("authority");
-            final String[] authorities = claim.asArray(String.class);
+            final Claim auClaim = jwt.getClaim("authority");
+            final String[] authorities = auClaim.asArray(String.class);
 
-            return createSuccessAuthentication(token, authorities);
+            final Claim uriClaim = jwt.getClaim("uri");
+            final String[] uris = uriClaim.asArray(String.class);
+
+            return createSuccessAuthentication(token, authorities, uris);
         } catch (JWTVerificationException ex) {
             throw new BadCredentialsException("Invalid");
         }
     }
 
-    private Authentication createSuccessAuthentication(AccessAuthenticationToken token, String[] authorities) {
+    private Authentication createSuccessAuthentication(AccessAuthenticationToken token, String[] authorities, String[] uris) {
         final Set<SimpleGrantedAuthority> au = Stream.of(authorities).map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
-        final TokenUserDetail u = new TokenUserDetail(au);
+        final Set<String> uri = Stream.of(uris).collect(Collectors.toSet());
+        final TokenUserDetail u = new TokenUserDetail(au, uri);
         return new AccessAuthenticationToken((String) token.getCredentials(), u, au);
     }
 

@@ -26,6 +26,7 @@ public class AuthTokenApplicationTests {
         String token = JWT.create()
                 .withIssuer("auth-token")
                 .withArrayClaim("authority", new String[]{"ADMIN", "USER"})
+                .withArrayClaim("uri", new String[]{"/user", "/actuator/health"})
                 .sign(algorithm);
 
         System.out.println(token);
@@ -35,12 +36,12 @@ public class AuthTokenApplicationTests {
 
     @Test
     public void verifyToken() {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4ifQ.L75Am_XSgyOtaZA_fjNfUZc2HtNguTnn6xBg7mPD_zc";
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdHkiOlsiQURNSU4iLCJVU0VSIl0sImlzcyI6ImF1dGgtdG9rZW4iLCJ1cmkiOlsiL3VzZXIiLCIvYWN0dWF0b3IvaGVhbHRoIl19._BCoNG-wN93B3DvkCVXaPNOYe8GeXjX6fxfDuwCTdbE";
         String secret = "21ff04df-889b-4f4e-8930-cf0fad57df0f";
         Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier verifier = JWT.require(algorithm)
                 .withIssuer("auth-token")
-                .build(); //Reusable verifier instance
+                .build();
         DecodedJWT jwt = verifier.verify(token);
         final Claim claim = jwt.getClaim("authority");
         final String[] authorities = claim.asArray(String.class);
