@@ -17,8 +17,8 @@ import java.io.IOException;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationManager authenticationManager;
 
     public TokenAuthenticationFilter(AuthenticationEntryPoint authenticationEntryPoint, AuthenticationManager authenticationManager) {
         Assert.notNull(authenticationManager, "authenticationManager cannot be null");
@@ -49,9 +49,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 }
 
                 SecurityContextHolder.getContext().setAuthentication(authResult);
-
-
-                onSuccessfulAuthentication(request, response, authResult);
             } else {
                 throw new TokenNotFoundException("Not found token");
             }
@@ -63,8 +60,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 this.logger.debug("Authentication request for failed: " + failed);
             }
 
-            onUnsuccessfulAuthentication(request, response, failed);
-
             this.authenticationEntryPoint.commence(request, response, failed);
             return;
         }
@@ -72,9 +67,4 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    protected void onSuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authResult) {
-    }
-
-    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-    }
 }

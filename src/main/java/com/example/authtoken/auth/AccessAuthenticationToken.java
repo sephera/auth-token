@@ -7,9 +7,9 @@ import java.util.Collection;
 
 public class AccessAuthenticationToken extends AbstractAuthenticationToken {
 
-    private String credentials;
+    private final String credentials;
 
-    private TokenUserDetail principal;
+    private final TokenUserDetail principal;
 
     public AccessAuthenticationToken(String credentials, TokenUserDetail principal) {
         super(null);
