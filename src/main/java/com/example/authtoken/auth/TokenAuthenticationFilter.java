@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2020  Hai Nguyen
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.example.authtoken.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,54 +39,58 @@ import java.io.IOException;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final AuthenticationEntryPoint authenticationEntryPoint;
-    private final AuthenticationManager authenticationManager;
+	private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    public TokenAuthenticationFilter(AuthenticationEntryPoint authenticationEntryPoint, AuthenticationManager authenticationManager) {
-        Assert.notNull(authenticationManager, "authenticationManager cannot be null");
-        Assert.notNull(authenticationEntryPoint, "authenticationEntryPoint cannot be null");
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationManager = authenticationManager;
-    }
+	private final AuthenticationManager authenticationManager;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        final boolean debug = this.logger.isDebugEnabled();
+	public TokenAuthenticationFilter(AuthenticationEntryPoint authenticationEntryPoint,
+			AuthenticationManager authenticationManager) {
+		Assert.notNull(authenticationManager, "authenticationManager cannot be null");
+		Assert.notNull(authenticationEntryPoint, "authenticationEntryPoint cannot be null");
+		this.authenticationEntryPoint = authenticationEntryPoint;
+		this.authenticationManager = authenticationManager;
+	}
 
-        try {
-            final String token = request.getHeader("X-Auth-Token");
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
+		final boolean debug = this.logger.isDebugEnabled();
 
+		try {
+			final String token = request.getHeader("X-Auth-Token");
 
-            if (debug) {
-                this.logger.debug("Token Authentication Authorization header found for token '" + token + "'");
-            }
+			if (debug) {
+				this.logger.debug("Token Authentication Authorization header found for token '" + token + "'");
+			}
 
-            if (!StringUtils.isEmpty(token)) {
-                AccessAuthenticationToken authRequest = new AccessAuthenticationToken(token, null);
+			if (!StringUtils.isEmpty(token)) {
+				AccessAuthenticationToken authRequest = new AccessAuthenticationToken(token, null);
 
-                Authentication authResult = this.authenticationManager.authenticate(authRequest);
+				Authentication authResult = this.authenticationManager.authenticate(authRequest);
 
-                if (debug) {
-                    this.logger.debug("Authentication success: " + authResult);
-                }
+				if (debug) {
+					this.logger.debug("Authentication success: " + authResult);
+				}
 
-                SecurityContextHolder.getContext().setAuthentication(authResult);
-            } else {
-                throw new TokenNotFoundException("Not found token");
-            }
+				SecurityContextHolder.getContext().setAuthentication(authResult);
+			}
+			else {
+				throw new TokenNotFoundException("Not found token");
+			}
 
-        } catch (AuthenticationException failed) {
-            SecurityContextHolder.clearContext();
+		}
+		catch (AuthenticationException failed) {
+			SecurityContextHolder.clearContext();
 
-            if (debug) {
-                this.logger.debug("Authentication request for failed: " + failed);
-            }
+			if (debug) {
+				this.logger.debug("Authentication request for failed: " + failed);
+			}
 
-            this.authenticationEntryPoint.commence(request, response, failed);
-            return;
-        }
+			this.authenticationEntryPoint.commence(request, response, failed);
+			return;
+		}
 
-        chain.doFilter(request, response);
-    }
+		chain.doFilter(request, response);
+	}
 
 }
